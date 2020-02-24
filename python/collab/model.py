@@ -155,6 +155,12 @@ class Task(object):
         """
         return np.matmul(np.array(self.coupling).T, self.target)
 
+    def getCumulativeInputDistanceNorm(self, designer=None):
+        return np.sum([np.linalg.norm(a.input-self.actions[i-1].input) if i > 0 else 0 for i,a in enumerate(self.actions)])
+
+    def getCumulativeErrorNorm(self, designer=None):
+        return np.sum([a.getErrorNorm(self, designer=None) for a in self.actions])
+
     @staticmethod
     def parse(json):
         return Task(
