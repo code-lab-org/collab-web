@@ -26,30 +26,22 @@ def main(log_file, json_file):
     pp = PostProcessor(log_file, json_file)
     # print header
     print(pp.session.name)
-    print("{0:>5} {4:>10} {1:>25} {2:>3} {3:>3} {5:>10} {6:>10}".format(
-        "Order", "Name", "N", "n", "Designers", "Score", "Time (s)"))
+    print("{0:>5},{4:>10},{1:>25},{2:>3},{3:>3},{5:>10},{6:>10},{7:>10},{8:>10},{9:>10}".format(
+        "Order", "Name", "N", "n", "Designers", "Score", "Time (s)", "Actions", "Distance", "Tot. Err."))
     # print rows for each task
-    for i, round in enumerate(pp.session.training):
-        for task in round.tasks:
-            print("{0:>5} {4:>10} {1:>25} {2:>3} {3:>3} {5:>10} {6:>10}".format(
-                "T{:d}".format(i+1),
-                round.name.replace(' (Individual)', '').replace(' (Pair)', ''),
-                sum(task.num_inputs),
-                len(task.designers),
-                '+'.join(map(lambda d: str(d+1), task.designers)),
-                "{:10.0f}".format(task.score/1000) if task.score else 0,
-                "{:10.2f}".format((task.time_complete - task.time_start)/1000) if task.time_complete else ''
-            ))
     for i, round in enumerate(pp.session.rounds):
         for task in round.tasks:
-            print("{0:>5} {4:>10} {1:>25} {2:>3} {3:>3} {5:>10} {6:>10}".format(
+            print("{0:>5},{4:>10},{1:>25},{2:>3},{3:>3},{5:>10},{6:>10},{7:>10},{8:>10},{9:>10}".format(
                 i+1,
                 round.name.replace(' (Individual)', '').replace(' (Pair)', ''),
                 sum(task.num_inputs),
                 len(task.designers),
                 '+'.join(map(lambda d: str(d+1), task.designers)),
                 "{:10.0f}".format(task.score/1000) if task.score else 0,
-                "{:10.2f}".format((task.time_complete - task.time_start)/1000) if task.time_complete else ''
+                "{:10.2f}".format((task.time_complete - task.time_start)/1000) if task.time_complete else '',
+                "{:10d}".format(len(task.actions)),
+                "{:10.2f}".format(task.getCumulativeInputDistanceNorm()),
+                "{:10.2f}".format(task.getCumulativeErrorNorm())
             ))
 
 if __name__ == '__main__':
@@ -61,4 +53,4 @@ if __name__ == '__main__':
     parser.add_argument('-j', '--json', type = str, required = True,
                         help = 'Experiment json file path')
     args = parser.parse_args()
-    pp = PostProcessor(args.log, args.json)
+    main(args.log, args.json)
