@@ -76,7 +76,7 @@ class PostProcessor(object):
                         task.current_input = np.zeros(np.sum(task.num_inputs))
                         task.actions = [Action(
                             time = time,
-                            input = task.current_input
+                            input = task.current_input.copy()
                         )]
                 # handle updated event: append new action to corresponding task
                 elif type == 'action' and round is not None:
@@ -90,7 +90,7 @@ class PostProcessor(object):
                         task.current_input[np.array(task.inputs) == designer] = input
                         task.actions.append(Action(
                             time = time,
-                            input = task.current_input
+                            input = task.current_input.copy()
                         ))
                 # handle score event
                 elif type == 'score' and round is not None:
