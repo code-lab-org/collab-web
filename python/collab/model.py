@@ -155,11 +155,17 @@ class Task(object):
         """
         return np.matmul(np.array(self.coupling).T, self.target)
 
+    def getCountActions(self, designer=None):
+        return np.sum([1 if i > 0 and not np.array_equal(a.getInput(self, designer), self.actions[i-1].getInput(self, designer)) else 0 for i,a in enumerate(self.actions)])
+
+    def getCountProductiveActions(self, designer=None):
+        return np.sum([1 if i > 0 and a.getErrorNorm(self, designer) < self.actions[i-1].getErrorNorm(self, designer) else 0 for i,a in enumerate(self.actions)])
+
     def getCumulativeInputDistanceNorm(self, designer=None):
-        return np.sum([np.linalg.norm(a.input-self.actions[i-1].input) if i > 0 else 0 for i,a in enumerate(self.actions)])
+        return np.sum([np.linalg.norm(a.getInput(self, designer) - self.actions[i-1].getInput(self, designer)) if i > 0 else 0 for i,a in enumerate(self.actions)])
 
     def getCumulativeErrorNorm(self, designer=None):
-        return np.sum([a.getErrorNorm(self, designer=None) for a in self.actions])
+        return np.sum([a.getErrorNorm(self, designer) for a in self.actions])
 
     @staticmethod
     def parse(json):
