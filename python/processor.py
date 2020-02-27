@@ -22,6 +22,12 @@ import os.path
 
 from collab import PostProcessor
 
+"""
+USE:
+
+python processor.py -l PATH_TO_LOG_FILE -j PATH_TO_JSON_FILE > PATH_TO_OUTPUT_FILE
+"""
+
 def main(log_file, json_file):
     pp = PostProcessor(log_file, json_file)
     # print header
