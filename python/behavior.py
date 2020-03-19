@@ -37,7 +37,7 @@ task = Task.generate(designers=[0], size=2, random=rng_generate)
 task.time_start = datetime.now().timestamp()
 
 # set the initial task action
-task.actions = [Action(time=datetime.now().timestamp(), input=[0,0])]
+task.actions = [Action(time=datetime.now().timestamp(), input=[0]*task.num_inputs[0])]
 
 # execute random walk algorithm
 random_walk(session, task, rng_behavior)
