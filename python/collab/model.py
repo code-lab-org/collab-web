@@ -155,6 +155,15 @@ class Task(object):
         """
         return np.matmul(np.array(self.coupling).T, self.target)
 
+    def getDuration(self):
+        """
+        Gets the duration of this task.
+
+        @returns: the elapsed time (milliseconds)
+        @rtype: long
+        """
+        return (self.time_complete - self.time_start) if self.time_complete else -1
+
     def getCountActions(self, designer=None):
         return np.sum([1 if i > 0 and not np.array_equal(a.getInput(self, designer), self.actions[i-1].getInput(self, designer)) else 0 for i,a in enumerate(self.actions)])
 
