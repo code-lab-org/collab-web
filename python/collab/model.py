@@ -297,24 +297,110 @@ class Action(object):
         # all errors must be less than tolerance values
         return all(abs(e) < session.error_tol for e in self.getError(task))
 
+    def getInputDesignerIndex(self, task):
+        """
+        Gets the designer index associated with this action. Returns -1 for
+        the first action (initialization).
+
+        @param task: the task
+        @type task: Task
+
+        @returns: the designer index who performed this action
+        @rtype: int
+        """
+        action_id = task.actions.index(self)
+        if action_id > 0:
+            return task.inputs[self.getInputIndex(task)]
+        else:
+            return -1
+
+    def getInputDeltaDesignerIndex(self, task):
+        """
+        Gets the change in designer index associated with this action. Returns 0 for
+        the first and second actions (initialization).
+
+        @param task: the task
+        @type task: Task
+
+        @returns: the index of the changed input
+        @rtype: int
+        """
+        action_id = task.actions.index(self)
+        if action_id > 1:
+            return self.getInputDesignerIndex(task) - task.actions[action_id-1].getInputDesignerIndex(task)
+        else:
+            return 0
+
     def getInputIndex(self, task, designer = None):
+        """
+        Gets the design variable input index modified with this action. Returns
+        -1 for the first action (initialization).
+
+        @param task: the task
+        @type task: Task
+
+        @param designer: the designer (optional, default = None)
+        @type designer: int
+
+        @returns: the index of the changed input
+        @rtype: int
+        """
         changed_id = np.argwhere(self.getInputDelta(task, designer) != 0)
         if len(changed_id) == 0:
-            return 0
+            return -1
         else:
             return changed_id[0][0]
 
     def getInputDeltaIndex(self, task, designer = None):
+        """
+        Gets the change in design variable input index between this action
+        and the previous action. Returns 0 for the first and second actions
+        (initialization).
+
+        @param task: the task
+        @type task: Task
+
+        @param designer: the designer (optional, default = None)
+        @type designer: int
+
+        @returns: the change in input index relative to the previous action
+        @rtype: int
+        """
         action_id = task.actions.index(self)
-        if action_id > 0:
+        if action_id > 1:
             return self.getInputIndex(task, designer) - task.actions[action_id-1].getInputIndex(task, designer)
         else:
-            return -1
+            return 0
 
     def getInputDeltaSize(self, task, designer = None):
+        """
+        Gets the magnitude (norm) of the change in design input relative to
+        the previous action.
+
+        @param task: the task
+        @type task: Task
+
+        @param designer: the designer (optional, default = None)
+        @type designer: int
+
+        @returns: the size of the input change relative to the previous action
+        @rtype: int
+        """
         return np.linalg.norm(self.getInputDelta(task, designer))
 
     def getInputDelta(self, task, designer = None):
+        """
+        Gets the difference in input vector after versus before this action.
+
+        @param task: the task
+        @type task: Task
+
+        @param designer: the designer (optional, default = None)
+        @type designer: int
+
+        @returns: the difference in input
+        @rtype: int
+        """
         action_id = task.actions.index(self)
         if action_id > 0:
             return self.getInput(task, designer) - task.actions[action_id-1].getInput(task, designer)
