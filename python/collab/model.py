@@ -297,6 +297,30 @@ class Action(object):
         # all errors must be less than tolerance values
         return all(abs(e) < session.error_tol for e in self.getError(task))
 
+    def getInputIndex(self, task, designer = None):
+        changed_id = np.argwhere(self.getInputDelta(task, designer) != 0)
+        if len(changed_id) == 0:
+            return 0
+        else:
+            return changed_id[0][0]
+
+    def getInputDeltaIndex(self, task, designer = None):
+        action_id = task.actions.index(self)
+        if action_id > 0:
+            return self.getInputIndex(task, designer) - task.actions[action_id-1].getInputIndex(task, designer)
+        else:
+            return -1
+
+    def getInputDeltaSize(self, task, designer = None):
+        return np.linalg.norm(self.getInputDelta(task, designer))
+
+    def getInputDelta(self, task, designer = None):
+        action_id = task.actions.index(self)
+        if action_id > 0:
+            return self.getInput(task, designer) - task.actions[action_id-1].getInput(task, designer)
+        else:
+            return np.zeros(np.shape(self.getInput(task, designer)))
+
     def getInput(self, task, designer = None):
         """
         Gets the input for a designer.
