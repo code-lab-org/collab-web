@@ -1,6 +1,6 @@
 # Collaborative Design Web Platform (collab-web)
 
-Paul T. Grogan, [ptgrogan@stevens.edu](mailto:pgrogan@stevens.edu)
+Paul T. Grogan, [pgrogan@stevens.edu](mailto:pgrogan@stevens.edu)
 
 ## Introduction
 
