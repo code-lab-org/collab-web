@@ -11,13 +11,34 @@ This project contains two components in support of Collaborative Design experime
 
 More information on both components is provided in the subdirectory README files.
 
-This project implements a similar interface to a [prior project](https://github.com/ptgrogan/collab); however, without requiring an IEEE 1516-2010 High Level Architecture (HLA) runtime infrastructure (RTI).
+This project implements a similar interface to a [prior project](https://github.com/code-lab-org/collab-java); however, without requiring an IEEE 1516-2010 High Level Architecture (HLA) runtime infrastructure (RTI).
 
 ## Requirements
 
 You must have Python (compatible with version 2 or 3) installed on your machine to run the Python toolkit.
 
 You must have Node.js installed on your server to run the web application.
+
+## Getting Started
+
+This application is only intended for use on private networks. Access to the designer and administrator interfaces are not restricted.
+
+Before running the web application, first run the Python generator to create experiment files:
+```shell
+cd python
+python generator.py
+```
+Next, run the web application:
+```shell
+cd app
+npm install
+npm start
+```
+which will launch with a primary entry point of port 80:
+* [http://localhost:80](http://localhost:80): designer interface
+* [http://localhost:80/admin.html](http://localhost:80/admin.html): administrator interface
+
+More detailed information is available in the `README.md` files in the `python/` and `app/` directories.
 
 ## References
 

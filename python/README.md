@@ -20,10 +20,9 @@ The `generator.py` script is used to generate experiment files for each session 
   4. 2x2 Pair
   5. 3x3 Pair
  * 10 Experimental Tasks (Randomized Order)
-  * 2 replications of 2x2 Individual
-  * 2 replications of 3x3 Individual
-  * 3 replications of 2x2 Pair
-  * 3 replications of 3x3 Pair
+  * 4 replications of 2x2 Pair
+  * 4 replications of 3x3 Pair
+  * 2 replications of 4x4 Pair
 
 After running, the generator will output a JSON file (`experimentXXX.json`) for each requested experimental session.
 
