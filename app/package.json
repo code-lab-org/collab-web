@@ -14,9 +14,9 @@
     "express": "~4.16.0",
     "frontend-dependencies": "^1.1.3",
     "http-errors": "~1.6.2",
-    "mathjs": "~5.4.1",
+    "mathjs": "^9.3.2",
     "morgan": "~1.9.0",
-    "socket.io": "~2.2.0"
+    "socket.io": "^4.0.2"
   },
   "frontendDependencies": {
     "target": "public/scripts/",
@@ -47,8 +47,8 @@
         "namespaced": true
       },
       "mathjs": {
-        "version": "^5.4.1",
-        "src": "dist/",
+        "version": "^9.3.2",
+        "src": "lib/browser/",
         "namespaced": true
       },
       "chart.js": {
@@ -57,7 +57,7 @@
         "namespaced": true
       },
       "socket.io-client": {
-        "version": "^2.2.0",
+        "version": "^4.0.2",
         "src": "dist/",
         "namespaced": true
       },
